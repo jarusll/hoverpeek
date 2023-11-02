@@ -53,6 +53,9 @@ hoverFlow.paddingTop = '56.25%'; /* 16:9 Aspect Ratio */
 
 document.addEventListener('mouseover', debounce((event) => {
   let anchorTag = null
+  if (event.target?.parentNode?.parentNode?.tagName.toLowerCase() === 'a') {
+    anchorTag = event.target.parentNode.parentNode
+  }
   if (event.target?.parentNode.tagName.toLowerCase() === 'a') {
     anchorTag = event.target.parentNode
   }
