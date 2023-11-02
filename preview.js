@@ -63,7 +63,6 @@ document.addEventListener('mouseover', debounce((event) => {
     const scrollTop = document.documentElement.scrollTop;
     hoverFlow.style.top = y + scrollTop + 'px'
     hoverFlow.style.left = x + scrollLeft + 'px'
-    // hoverFlow.src = anchorTag.href
     hoverflowContainer.prepend(hoverFlow)
     document.body.prepend(hoverflowContainer)
 
