@@ -88,21 +88,28 @@ hoverFlow.style.border = '2px solid black'
 
 
 let visible = false
-hoverFlow.addEventListener('mouseenter', () => {
+
+hoverFlow.addEventListener('mouseenter', debounce(() => {
   visible = true
-})
-hoverFlow.addEventListener('mouseout', () => {
+}))
+
+hoverFlow.addEventListener('mouseover', debounce(() => {
+  visible = true
+}))
+
+hoverFlow.addEventListener('mouseout', debounce(() => {
   visible = false
   setTimeout(() => {
     if (!visible)
-      hoverFlow.remove()
-  }, 1000)
-})
+      killHoverflow()
+  }, 250);
+}))
 
 document.addEventListener('mouseover', debounce((event) => {
   const anchorTag = getAnchorTag(event);
 
   if (anchorTag) {
+    visible = true
     const { clientX: x, clientY: y } = event;
     const scrollLeft = document.documentElement.scrollLeft;
     const scrollTop = document.documentElement.scrollTop;
