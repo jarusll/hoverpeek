@@ -53,9 +53,7 @@ hoverFlow.style.position = 'absolute'
 hoverFlow.style.zIndex = 2147483647
 hoverFlow.position = 'relative';
 hoverFlow.sandbox = ""
-hoverFlow.style.resize = "both"
-hoverFlow.overflow = 'hidden';
-hoverFlow.paddingTop = '56.25%'; /* 16:9 Aspect Ratio */
+hoverFlow.style.border = '2px solid black'
 
 document.addEventListener('mouseover', debounce((event) => {
   let anchorTag = null
