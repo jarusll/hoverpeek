@@ -47,11 +47,12 @@ function getAnchorTag(event) {
 }
 
 function getPageAndPreview(anchorTag) {
-  if (anchorTag in cache) {
+  const url = anchorTag.href;
+  if (url in cache) {
     killHoverflow()
-    return cache[anchorTag]
+    return cache[url]
   }
-  fetch(anchorTag.href)
+  fetch(url)
     .then((response) => {
       return response.text();
     })
