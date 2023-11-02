@@ -47,6 +47,10 @@ function getAnchorTag(event) {
 }
 
 function getPageAndPreview(anchorTag) {
+  if (anchorTag in cache) {
+    killHoverflow()
+    return cache[anchorTag]
+  }
   fetch(anchorTag.href)
     .then((response) => {
       return response.text();
@@ -54,6 +58,7 @@ function getPageAndPreview(anchorTag) {
     .then((html) => {
       var parser = new DOMParser();
       var doc = parser.parseFromString(html, "text/html");
+      cache[anchorTag] = doc
       hoverFlow.srcdoc = new XMLSerializer().serializeToString(doc);
     })
     .catch(() => {
@@ -62,6 +67,7 @@ function getPageAndPreview(anchorTag) {
 }
 
 // GLOBALS
+const cache = new WeakMap()
 const hoverflowContainer = document.createElement('div');
 hoverflowContainer.position = 'absolute';
 hoverflowContainer.top = 0;
@@ -117,12 +123,10 @@ document.addEventListener('mouseover', debounce((event) => {
     document.body.prepend(hoverflowContainer)
 
     if (anchorTag?.href) {
-      if (isRelativeHref(anchorTag.href)) {
-        const basePath = new URL(document.URL).hostname
-        anchorTag.href = new URL(anchorTag.href, basePath).toString()
-      }
-      console.log('Sending fetch')
-      getPageAndPreview(anchorTag);
-    }
-  }
-}, 500));
+// prefetch on hover
+document.addEventListener('mouseover', (event) => {
+  const anchorTag = getAnchorTag(event);
+  console.log('Sending fetch')
+  getPageAndPreview(anchorTag);
+})
+
