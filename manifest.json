@@ -1,7 +1,7 @@
 {
   "description": "Shows a preview of a link in iframe",
   "manifest_version": 2,
-  "name": "preview",
+  "name": "HoverPeek",
   "version": "1.0",
   "homepage_url": "https://github.com/jarusll/preview.git",
   "icons": {
@@ -13,7 +13,7 @@
         "<all_urls>"
       ],
       "js": [
-        "preview.js"
+        "peek.js"
       ]
     }
   ],
