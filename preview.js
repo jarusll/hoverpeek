@@ -1,6 +1,16 @@
 const width = window.innerWidth;
 const height = window.innerHeight;
 
+function isRelativeHref(href) {
+  try {
+    const url = new URL(href);
+    return url.protocol === '' && url.hostname === '' && url.pathname !== '';
+  } catch (error) {
+    // Invalid URL, consider it as relative
+    return true;
+  }
+}
+
 function debounce(func, wait, immediate = false) {
   var timeout;
   return function () {
@@ -72,6 +82,10 @@ document.addEventListener('mouseover', debounce((event) => {
     document.body.prepend(hoverflowContainer)
 
     if (anchorTag?.href) {
+      if (isRelativeHref(anchorTag.href)){
+        const basePath = new URL(document.URL).hostname
+        anchorTag.href = new URL(anchorTag.href, basePath).toString()
+      }
       console.log('Sending fetch')
       fetch(anchorTag.href)
         .then((response) => {
