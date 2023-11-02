@@ -6,6 +6,9 @@
 //   console.log('html doc', element[0].innerHTML);
 // })
 
+const width = window.innerWidth;
+const height = window.innerHeight;
+
 function debounce(func, wait, immediate = false) {
   var timeout;
   return function () {
@@ -21,7 +24,6 @@ function debounce(func, wait, immediate = false) {
   };
 }
 
-console.clear()
 const hoverflowContainer = document.createElement('div');
 hoverflowContainer.position = 'absolute';
 hoverflowContainer.top = 0;
@@ -48,7 +50,6 @@ hoverFlow.overflow = 'hidden';
 hoverFlow.paddingTop = '56.25%'; /* 16:9 Aspect Ratio */
 
 document.addEventListener('mouseover', debounce((event) => {
-  console.log('tag : ', event.target.tagName.toLowerCase())
   let anchorTag = null
   if (event.target?.parentNode.tagName.toLowerCase() === 'a') {
     anchorTag = event.target.parentNode
@@ -61,8 +62,20 @@ document.addEventListener('mouseover', debounce((event) => {
     const { clientX: x, clientY: y } = event;
     const scrollLeft = document.documentElement.scrollLeft;
     const scrollTop = document.documentElement.scrollTop;
-    hoverFlow.style.top = y + scrollTop + 'px'
-    hoverFlow.style.left = x + scrollLeft + 'px'
+    let leftAnchor = x + scrollLeft;
+    let topAnchor = y + scrollTop;
+    let previewBottom = parseInt(y, 10) + parseInt(hoverFlow.height, 10);
+    if (previewBottom > height) {
+      const extra = previewBottom - height
+      topAnchor -= extra
+    }
+    const previewRight = parseInt(x, 10) + parseInt(hoverFlow.width, 10);
+    if (previewRight > width) {
+      const extra = previewRight - width
+      leftAnchor -= extra
+    }
+    hoverFlow.style.top = topAnchor + 'px'
+    hoverFlow.style.left = leftAnchor + 'px'
     hoverflowContainer.prepend(hoverFlow)
     document.body.prepend(hoverflowContainer)
 
@@ -75,12 +88,11 @@ document.addEventListener('mouseover', debounce((event) => {
         .then((html) => {
           var parser = new DOMParser();
           var doc = parser.parseFromString(html, "text/html");
-          console.log('parsed', new XMLSerializer().serializeToString(doc))
           hoverFlow.srcdoc = new XMLSerializer().serializeToString(doc)
         })
-        .catch((err) => {
-          console.log('Failed to fetch page: ', err);
+        .catch(() => {
+          console.log('Failed to fetch')
         });
     }
   }
-}, 300));
+}, 1000));
