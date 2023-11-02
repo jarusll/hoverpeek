@@ -34,10 +34,16 @@ hoverflowContainer.width = '100%';
 hoverflowContainer.height = '100%';
 const hoverFlow = document.createElement('iframe')
 hoverFlow.id = 'hoverflow'
+let visible = false
+hoverFlow.addEventListener('mouseenter', () => {
+  visible = true
+})
 hoverFlow.addEventListener('mouseout', () => {
+  visible = false
   setTimeout(() => {
-    hoverFlow.remove()
-  }, 250)
+    if (!visible)
+      hoverFlow.remove()
+  }, 1000)
 })
 
 hoverFlow.height = 600
