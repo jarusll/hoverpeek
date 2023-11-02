@@ -1,11 +1,3 @@
-// let connection = browser.runtime.connect({ name: "port-from-cs" });
-
-// connection.onMessage.addListener((message) => {
-//   console.log('recieved document', message)
-//   const element = message.getElementByTagName('html')
-//   console.log('html doc', element[0].innerHTML);
-// })
-
 const width = window.innerWidth;
 const height = window.innerHeight;
 
