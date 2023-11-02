@@ -2,6 +2,11 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 // UTILS
+function killHoverflow() {
+  const hoverFlow = document.getElementById('hoverflow')
+  hoverFlow?.remove()
+}
+
 function isRelativeHref(href) {
   try {
     const url = new URL(href);
