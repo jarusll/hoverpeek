@@ -1,7 +1,3 @@
-/*
-Just draw a border round the document.body.
-*/
-
 function debounce(func, wait, immediate = false) {
   var timeout;
   return function () {
@@ -15,7 +11,7 @@ function debounce(func, wait, immediate = false) {
     timeout = setTimeout(later, wait);
     if (callNow) func.apply(context, args);
   };
-};
+}
 
 console.clear()
 document.body.style.border = "10px solid red";
@@ -27,12 +23,11 @@ hoverflowContainer.width = '100%';
 hoverflowContainer.height = '100%';
 const hoverFlow = document.createElement('iframe')
 hoverFlow.id = 'hoverflow'
-// hoverFlow.src = 'https://www.google.com'
-hoverFlow.addEventListener('mouseout', (event) => {
-  setTimeout(() => {
-    hoverFlow.remove()
-  }, 500)
-})
+// hoverFlow.addEventListener('mouseout', () => {
+//   setTimeout(() => {
+//     hoverFlow.remove()
+//   }, 500)
+// })
 
 hoverFlow.height = 400
 hoverFlow.width = 400
@@ -66,9 +61,9 @@ document.addEventListener('mouseover', debounce((event) => {
     hoverflowContainer.prepend(hoverFlow)
     document.body.prepend(hoverflowContainer)
   }
-}, 250));
+}, 1000));
 
-browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((message) => {
   const { type, payload } = message
   console.log('recieved in content', { type, payload })
   switch (type) {
