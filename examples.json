@@ -64,7 +64,7 @@
     {
         "description": "Adds a solid red border to all webpages matching mozilla.org.",
         "javascript_apis": [],
-        "name": "borderify"
+        "name": "preview"
     },
     {
         "description": "Show a page action after a period of inactivity. Show cat gifs when the page action is clicked.",

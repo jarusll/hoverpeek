@@ -1,9 +1,9 @@
 {
-  "description": "Adds a solid red border to all webpages matching mozilla.org. See https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Examples#borderify",
+  "description": "Shows a preview of a link in iframe",
   "manifest_version": 2,
-  "name": "Borderify",
+  "name": "preview",
   "version": "1.0",
-  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/borderify",
+  "homepage_url": "https://github.com/jarusll/preview.git",
   "icons": {
     "48": "icons/border-48.png"
   },
@@ -13,7 +13,7 @@
         "<all_urls>"
       ],
       "js": [
-        "borderify.js"
+        "preview.js"
       ]
     }
   ],
@@ -25,7 +25,7 @@
   ],
   "background": {
     "scripts": [
-      "init.js"
+      "background.js"
     ],
     "type": "module"
   }
