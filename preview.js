@@ -1,6 +1,7 @@
 const width = window.innerWidth;
 const height = window.innerHeight;
 
+// UTILS
 function isRelativeHref(href) {
   try {
     const url = new URL(href);
@@ -26,14 +27,54 @@ function debounce(func, wait, immediate = false) {
   };
 }
 
+function getAnchorTag(event) {
+  let anchorTag
+  if (event.target?.parentNode?.parentNode?.tagName.toLowerCase() === 'a') {
+    anchorTag = event.target.parentNode.parentNode;
+  }
+  if (event.target?.parentNode.tagName.toLowerCase() === 'a') {
+    anchorTag = event.target.parentNode;
+  }
+  if (event.target.tagName.toLowerCase() === 'a') {
+    anchorTag = event.target;
+  }
+  return anchorTag;
+}
+
+function getPageAndPreview(anchorTag) {
+  fetch(anchorTag.href)
+    .then((response) => {
+      return response.text();
+    })
+    .then((html) => {
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(html, "text/html");
+      hoverFlow.srcdoc = new XMLSerializer().serializeToString(doc);
+    })
+    .catch(() => {
+      console.log('Failed to fetch');
+    });
+}
+
+// GLOBALS
 const hoverflowContainer = document.createElement('div');
 hoverflowContainer.position = 'absolute';
 hoverflowContainer.top = 0;
 hoverflowContainer.left = 0;
 hoverflowContainer.width = '100%';
 hoverflowContainer.height = '100%';
+
 const hoverFlow = document.createElement('iframe')
 hoverFlow.id = 'hoverflow'
+hoverFlow.height = 600
+hoverFlow.width = 400
+hoverFlow.style.background = 'white'
+hoverFlow.style.position = 'absolute'
+hoverFlow.style.zIndex = 2147483647
+hoverFlow.position = 'relative';
+hoverFlow.sandbox = ""
+hoverFlow.style.border = '2px solid black'
+
 let visible = false
 hoverFlow.addEventListener('mouseenter', () => {
   visible = true
@@ -46,26 +87,8 @@ hoverFlow.addEventListener('mouseout', () => {
   }, 1000)
 })
 
-hoverFlow.height = 600
-hoverFlow.width = 400
-hoverFlow.style.background = 'white'
-hoverFlow.style.position = 'absolute'
-hoverFlow.style.zIndex = 2147483647
-hoverFlow.position = 'relative';
-hoverFlow.sandbox = ""
-hoverFlow.style.border = '2px solid black'
-
 document.addEventListener('mouseover', debounce((event) => {
-  let anchorTag = null
-  if (event.target?.parentNode?.parentNode?.tagName.toLowerCase() === 'a') {
-    anchorTag = event.target.parentNode.parentNode
-  }
-  if (event.target?.parentNode.tagName.toLowerCase() === 'a') {
-    anchorTag = event.target.parentNode
-  }
-  if (event.target.tagName.toLowerCase() === 'a') {
-    anchorTag = event.target
-  }
+  const anchorTag = getAnchorTag(event);
 
   if (anchorTag) {
     const { clientX: x, clientY: y } = event;
@@ -89,23 +112,12 @@ document.addEventListener('mouseover', debounce((event) => {
     document.body.prepend(hoverflowContainer)
 
     if (anchorTag?.href) {
-      if (isRelativeHref(anchorTag.href)){
+      if (isRelativeHref(anchorTag.href)) {
         const basePath = new URL(document.URL).hostname
         anchorTag.href = new URL(anchorTag.href, basePath).toString()
       }
       console.log('Sending fetch')
-      fetch(anchorTag.href)
-        .then((response) => {
-          return response.text()
-        })
-        .then((html) => {
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(html, "text/html");
-          hoverFlow.srcdoc = new XMLSerializer().serializeToString(doc)
-        })
-        .catch(() => {
-          console.log('Failed to fetch')
-        });
+      getPageAndPreview(anchorTag);
     }
   }
-}, 1000));
+}, 500));
