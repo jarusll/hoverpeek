@@ -56,7 +56,6 @@ function getPageAndPreview(anchorTag) {
       return response.text();
     })
     .then((html) => {
-      var parser = new DOMParser();
       var doc = parser.parseFromString(html, "text/html");
       cache[anchorTag] = doc
       hoverFlow.srcdoc = new XMLSerializer().serializeToString(doc);
@@ -68,6 +67,7 @@ function getPageAndPreview(anchorTag) {
 
 // GLOBALS
 const cache = new WeakMap()
+const parser = new DOMParser();
 const hoverflowContainer = document.createElement('div');
 hoverflowContainer.position = 'absolute';
 hoverflowContainer.top = 0;
@@ -85,6 +85,7 @@ hoverFlow.style.zIndex = 2147483647
 hoverFlow.position = 'relative';
 hoverFlow.sandbox = ""
 hoverFlow.style.border = '2px solid black'
+
 
 let visible = false
 hoverFlow.addEventListener('mouseenter', () => {
