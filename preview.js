@@ -1,10 +1,10 @@
-let connection = browser.runtime.connect({ name: "port-from-cs" });
+// let connection = browser.runtime.connect({ name: "port-from-cs" });
 
-connection.onMessage.addListener((message) => {
-  console.log('recieved document', message)
-  const element = message.getElementByTagName('html')
-  console.log('html doc', element[0].innerHTML);
-})
+// connection.onMessage.addListener((message) => {
+//   console.log('recieved document', message)
+//   const element = message.getElementByTagName('html')
+//   console.log('html doc', element[0].innerHTML);
+// })
 
 function debounce(func, wait, immediate = false) {
   var timeout;
@@ -33,11 +33,12 @@ hoverFlow.id = 'hoverflow'
 hoverFlow.addEventListener('mouseout', () => {
   setTimeout(() => {
     hoverFlow.remove()
-  }, 1000)
+  }, 250)
 })
 
-hoverFlow.height = 400
+hoverFlow.height = 600
 hoverFlow.width = 400
+hoverFlow.style.background = 'white'
 hoverFlow.style.position = 'absolute'
 hoverFlow.style.zIndex = 2147483647
 hoverFlow.position = 'relative';
