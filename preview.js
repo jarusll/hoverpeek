@@ -127,10 +127,18 @@ document.addEventListener('mouseover', debounce((event) => {
     }
     hoverFlow.style.top = topAnchor + 'px'
     hoverFlow.style.left = leftAnchor + 'px'
-    hoverflowContainer.prepend(hoverFlow)
-    document.body.prepend(hoverflowContainer)
 
     if (anchorTag?.href) {
+      // if (isRelativeHref(anchorTag.href)) {
+      //   const basePath = new URL(document.URL).hostname
+      //   anchorTag.href = new URL(anchorTag.href, basePath).toString()
+      // }
+      hoverflowContainer.prepend(hoverFlow)
+      document.body.prepend(hoverflowContainer)
+    }
+  }
+}, 50));
+
 // prefetch on hover
 document.addEventListener('mouseover', (event) => {
   const anchorTag = getAnchorTag(event);
