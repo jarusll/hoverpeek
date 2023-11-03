@@ -3,7 +3,20 @@ const WIDTH = 400
 const width = window.innerWidth;
 const height = window.innerHeight;
 
+const DEBUG_MODE = true
+
 // UTILS
+class Logger {
+  static fail(obj) {
+    if (DEBUG_MODE)
+      console.error(obj)
+  }
+  static log(obj) {
+    if (DEBUG_MODE)
+      console.log(obj)
+  }
+}
+
 function killHoverflow() {
   const hoverFlow = document.getElementById('hoverflow')
   hoverFlow.style.display = 'none'
@@ -26,10 +39,10 @@ function debounce(func, wait, immediate = false) {
 
 function getAnchorTag(event) {
   let anchorTag = null
-  if (event.target?.parentNode?.parentNode?.tagName.toLowerCase() === 'a') {
+  if (event?.target?.parentNode?.parentNode?.tagName.toLowerCase() === 'a') {
     anchorTag = event.target.parentNode.parentNode;
   }
-  if (event.target?.parentNode?.tagName.toLowerCase() === 'a') {
+  if (event?.target?.parentNode?.tagName.toLowerCase() === 'a') {
     anchorTag = event.target.parentNode;
   }
   if (event?.target?.tagName.toLowerCase() === 'a') {
@@ -42,10 +55,16 @@ function getPageAndCache(anchorTag) {
   if (anchorTag === null)
     return
   const url = anchorTag.href;
-  if (url in cache) {
+  if (cache.has(anchorTag)) {
+    Logger.log({
+      cacheHit: cache.get(anchorTag)
+    })
     killHoverflow()
-    return cache[url]
+    return cache.get(anchorTag)
   }
+  Logger.log({
+    fetch: url
+  })
   fetch(url, {
     headers: {
       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1'
@@ -56,7 +75,10 @@ function getPageAndCache(anchorTag) {
     })
     .then((html) => {
       var doc = parser.parseFromString(html, "text/html");
-      cache[anchorTag] = doc
+      Logger.log({
+        response: doc
+      })
+      cache.set(anchorTag, doc)
       const urlObj = new URL(url)
       if (urlObj.hash) {
         const hashAnchor = document.createElement('a')
@@ -68,7 +90,11 @@ function getPageAndCache(anchorTag) {
       hoverFlow.srcdoc = new XMLSerializer().serializeToString(doc);
     })
     .catch((err) => {
-      console.log('Failed to fetch', err, anchorTag?.href);
+      Logger.fail({
+        url,
+        error: err,
+        message: err.message
+      })
     });
 }
 
@@ -95,8 +121,8 @@ hoverFlow.sandbox = ""
 hoverFlow.style.border = '2px solid black'
 hoverFlow.style.display = 'none'
 
-hoverflowContainer.prepend(hoverFlow)
-document.body.prepend(hoverflowContainer)
+hoverflowContainer?.prepend(hoverFlow)
+document?.body?.prepend(hoverflowContainer)
 
 let visible = false
 
@@ -150,7 +176,6 @@ document.addEventListener('mouseover', debounce((event) => {
 // prefetch on hover
 document.addEventListener('mouseover', (event) => {
   const anchorTag = getAnchorTag(event);
-  console.log('Sending fetch')
   getPageAndCache(anchorTag);
 })
 
