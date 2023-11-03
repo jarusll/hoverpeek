@@ -72,6 +72,7 @@ function getPageAndCache(anchorTag) {
     fetch: url
   })
   fetch(url, {
+    mode: 'no-cors',
     headers: {
       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1'
     }
@@ -147,7 +148,7 @@ hoverFlow.addEventListener('mouseout', debounce(() => {
   setTimeout(() => {
     if (!visible)
       killHoverflow()
-  }, 250);
+  }, 500);
 }))
 
 document.addEventListener('mouseover', debounce((event) => {
