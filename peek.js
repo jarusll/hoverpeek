@@ -57,7 +57,8 @@ function getPageAndCache(anchorTag) {
   const url = anchorTag.href;
   if (cache.has(anchorTag)) {
     Logger.log({
-      cacheHit: cache.get(anchorTag)
+      url: anchorTag?.href,
+      cacheHit: cache.get(anchorTag).documentElement.textContent
     })
     killHoverflow()
     return cache.get(anchorTag)
@@ -76,6 +77,7 @@ function getPageAndCache(anchorTag) {
     .then((html) => {
       var doc = parser.parseFromString(html, "text/html");
       Logger.log({
+        url,
         response: doc
       })
       cache.set(anchorTag, doc)
