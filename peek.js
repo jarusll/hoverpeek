@@ -4,7 +4,7 @@ const height = window.innerHeight;
 // UTILS
 function killHoverflow() {
   const hoverFlow = document.getElementById('hoverflow')
-  hoverFlow?.remove()
+  hoverFlow.style.display = 'none'
 }
 
 function isRelativeHref(href) {
@@ -86,6 +86,9 @@ hoverFlow.style.zIndex = 2147483647
 hoverFlow.position = 'relative';
 hoverFlow.sandbox = ""
 hoverFlow.style.border = '2px solid black'
+hoverFlow.style.display = 'none'
+hoverflowContainer.prepend(hoverFlow)
+document.body.prepend(hoverflowContainer)
 
 
 let visible = false
@@ -132,12 +135,7 @@ document.addEventListener('mouseover', debounce((event) => {
     hoverFlow.style.left = leftAnchor + 'px'
 
     if (anchorTag?.href) {
-      // if (isRelativeHref(anchorTag.href)) {
-      //   const basePath = new URL(document.URL).hostname
-      //   anchorTag.href = new URL(anchorTag.href, basePath).toString()
-      // }
-      hoverflowContainer.prepend(hoverFlow)
-      document.body.prepend(hoverflowContainer)
+      hoverFlow.style.display = 'block'
     }
   }
 }, 50));
