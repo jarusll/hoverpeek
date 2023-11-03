@@ -46,7 +46,7 @@ function getAnchorTag(event) {
   return anchorTag;
 }
 
-function getPageAndPreview(anchorTag) {
+function getPageAndCache(anchorTag) {
   const url = anchorTag.href;
   if (url in cache) {
     killHoverflow()
@@ -90,6 +90,7 @@ hoverFlow.style.border = '2px solid black'
 
 let visible = false
 
+// Dont destroy peek if user hovers back in 250ms
 hoverFlow.addEventListener('mouseenter', debounce(() => {
   visible = true
 }))
@@ -116,6 +117,7 @@ document.addEventListener('mouseover', debounce((event) => {
     const scrollTop = document.documentElement.scrollTop;
     let leftAnchor = x + scrollLeft;
     let topAnchor = y + scrollTop;
+    // Clamp the frame in viewport
     let previewBottom = parseInt(y, 10) + parseInt(hoverFlow.height, 10);
     if (previewBottom > height) {
       const extra = previewBottom - height
@@ -144,6 +146,6 @@ document.addEventListener('mouseover', debounce((event) => {
 document.addEventListener('mouseover', (event) => {
   const anchorTag = getAnchorTag(event);
   console.log('Sending fetch')
-  getPageAndPreview(anchorTag);
+  getPageAndCache(anchorTag);
 })
 
