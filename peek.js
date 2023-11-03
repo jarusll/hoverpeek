@@ -1,3 +1,5 @@
+const HEIGHT = 600
+const WIDTH = 400
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -5,16 +7,6 @@ const height = window.innerHeight;
 function killHoverflow() {
   const hoverFlow = document.getElementById('hoverflow')
   hoverFlow.style.display = 'none'
-}
-
-function isRelativeHref(href) {
-  try {
-    const url = new URL(href);
-    return url.protocol === '' && url.hostname === '' && url.pathname !== '';
-  } catch (error) {
-    // Invalid URL, consider it as relative
-    return true;
-  }
 }
 
 function debounce(func, wait, immediate = false) {
@@ -93,8 +85,8 @@ hoverflowContainer.height = '100%';
 
 const hoverFlow = document.createElement('iframe')
 hoverFlow.id = 'hoverflow'
-hoverFlow.height = 600
-hoverFlow.width = 400
+hoverFlow.height = HEIGHT
+hoverFlow.width = WIDTH
 hoverFlow.style.background = 'white'
 hoverFlow.style.position = 'absolute'
 hoverFlow.style.zIndex = 2147483647
