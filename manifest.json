@@ -3,7 +3,7 @@
   "manifest_version": 2,
   "name": "HoverPeek",
   "version": "1.0",
-  "homepage_url": "https://github.com/jarusll/preview.git",
+  "homepage_url": "https://github.com/jarusll/hoverpeek.git",
   "icons": {
     "32": "icons/hoverpeek.png"
   },
