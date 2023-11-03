@@ -17,6 +17,11 @@ class Logger {
   }
 }
 
+function strip(dom) {
+  const strippedText = dom.body.textContent || "";
+  return strippedText.replace(/(\r\n|\n|\r)/gm, "");
+}
+
 function killHoverflow() {
   const hoverFlow = document.getElementById('hoverflow')
   hoverFlow.style.display = 'none'
@@ -58,7 +63,7 @@ function getPageAndCache(anchorTag) {
   if (cache.has(anchorTag)) {
     Logger.log({
       url: anchorTag?.href,
-      cacheHit: cache.get(anchorTag).documentElement.textContent
+      cacheHit: strip(cache.get(anchorTag))
     })
     killHoverflow()
     return cache.get(anchorTag)
