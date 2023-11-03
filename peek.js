@@ -65,12 +65,21 @@ function getPageAndCache(anchorTag) {
     .then((html) => {
       var doc = parser.parseFromString(html, "text/html");
       cache[anchorTag] = doc
+      const urlObj = new URL(url)
+      if (urlObj.hash) {
+        const hashAnchor = document.createElement('a')
+        hashAnchor.id = 'jumptocontent'
+        hashAnchor.href = urlObj.hash
+        hashAnchor.textContent = 'Jump to content'
+        doc.body.prepend(hashAnchor)
+      }
       hoverFlow.srcdoc = new XMLSerializer().serializeToString(doc);
     })
     .catch(() => {
       console.log('Failed to fetch');
     });
 }
+
 
 // GLOBALS
 const cache = new WeakMap()
@@ -93,9 +102,9 @@ hoverFlow.position = 'relative';
 hoverFlow.sandbox = ""
 hoverFlow.style.border = '2px solid black'
 hoverFlow.style.display = 'none'
+
 hoverflowContainer.prepend(hoverFlow)
 document.body.prepend(hoverflowContainer)
-
 
 let visible = false
 
