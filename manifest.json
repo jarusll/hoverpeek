@@ -18,6 +18,8 @@
     }
   ],
   "permissions": [
+    "storage",
+    "activeTab",
     "http://*/*",
     "https://*/*"
   ],
@@ -26,5 +28,12 @@
       "background.js"
     ],
     "type": "module"
+  },
+  "browser_action": {
+    "default_icon": {
+      "48": "icons/border-48.png"
+    },
+    "default_title": "HoverPeek",
+    "default_popup": "popup.html"
   }
 }
