@@ -75,8 +75,8 @@ function getPageAndCache(anchorTag) {
       }
       hoverFlow.srcdoc = new XMLSerializer().serializeToString(doc);
     })
-    .catch(() => {
-      console.log('Failed to fetch');
+    .catch((err) => {
+      console.log('Failed to fetch', err, anchorTag?.href);
     });
 }
 
