@@ -33,20 +33,22 @@ function debounce(func, wait, immediate = false) {
 }
 
 function getAnchorTag(event) {
-  let anchorTag
+  let anchorTag = null
   if (event.target?.parentNode?.parentNode?.tagName.toLowerCase() === 'a') {
     anchorTag = event.target.parentNode.parentNode;
   }
-  if (event.target?.parentNode.tagName.toLowerCase() === 'a') {
+  if (event.target?.parentNode?.tagName.toLowerCase() === 'a') {
     anchorTag = event.target.parentNode;
   }
-  if (event.target.tagName.toLowerCase() === 'a') {
+  if (event?.target?.tagName.toLowerCase() === 'a') {
     anchorTag = event.target;
   }
   return anchorTag;
 }
 
 function getPageAndCache(anchorTag) {
+  if (anchorTag === null)
+    return
   const url = anchorTag.href;
   if (url in cache) {
     killHoverflow()
