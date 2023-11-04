@@ -1,6 +1,5 @@
 let HEIGHT = 600
 let WIDTH = 500
-let BLOCKJS = true
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -35,8 +34,6 @@ function getSettings() {
     })
     hoverFlow.height = settings?.height ?? HEIGHT;
     hoverFlow.width = settings?.width ?? WIDTH;
-    BLOCKJS = settings?.blockJS ?? BLOCKJS
-    hoverFlow.sandbox = BLOCKJS ? "" : "allow-scripts"
   });
 }
 
