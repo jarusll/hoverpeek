@@ -4,29 +4,24 @@
 </head>
 
 <body>
-  <form action="" style="display: flex; flex-direction: column; margin: 1rem;">
+  <form style="display: flex; flex-direction: column; margin: 1rem;">
 
     <div style="display: flex; flex-direction: column; margin-bottom: 1rem;">
       <label for="height">Height</label>
-      <input type="number" name="Height" id="height" placeholder="600">
+      <input type="number" name="Height" id="height" placeholder="600" value="600">
     </div>
 
     <div style="display: flex; flex-direction: column; margin-bottom: 1rem;">
       <label for="width">Width</label>
-      <input type="number" name="Width" id="width" placeholder="400">
-    </div>
-
-    <div>
-      <input type="checkbox" name="block-js" id="block-js">
-      <label for="block-js">Block script</label>
+      <input type="number" name="Width" id="width" placeholder="400" value="400">
     </div>
 
     <div style="margin-bottom: 1rem;">
-      <input type="checkbox" name="block-images" id="block-images">
-      <label for="block-images">Block images</label>
+      <input type="checkbox" name="blockJS" id="blockJS" checked="true">
+      <label for="blockJS">Block scripts</label>
     </div>
 
-    <button type="submit">Save</button>
+    <button type="submit" id="save">Save</button>
   </form>
   <script src="./popup.js"></script>
 </body>

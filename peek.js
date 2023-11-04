@@ -1,13 +1,14 @@
 let HEIGHT = 600
 let WIDTH = 400
+let BLOCKJS = true
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-browser.storage.local.get(['height', 'width']).then(settings => {
-  console.log('settings', settings)
-  HEIGHT = settings?.height ?? HEIGHT
-  WIDTH = settings?.width ?? WIDTH
-})
+if (document.readyState == 'loading') {
+  document.addEventListener('DOMContentLoaded', getSettings);
+} else {
+  getSettings();
+}
 
 const DEBUG_MODE = true
 
@@ -21,6 +22,15 @@ class Logger {
     if (DEBUG_MODE)
       console.log(obj)
   }
+}
+
+function getSettings() {
+  browser.storage.local.get(['height', 'width']).then(settings => {
+    console.log('settings', settings);
+    hoverFlow.height = settings?.height ?? HEIGHT;
+    hoverFlow.width = settings?.width ?? WIDTH;
+    BLOCKJS = settings?.blockJS ?? BLOCKJS
+  });
 }
 
 function strip(dom) {
@@ -130,8 +140,6 @@ hoverflowContainer.height = '100%';
 
 const hoverFlow = document.createElement('iframe')
 hoverFlow.id = 'hoverflow'
-hoverFlow.height = HEIGHT
-hoverFlow.width = WIDTH
 hoverFlow.style.background = 'white'
 hoverFlow.style.position = 'absolute'
 hoverFlow.style.zIndex = 2147483647
