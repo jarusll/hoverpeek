@@ -6,5 +6,13 @@ Previews a link in iframe on hover. It is removed when you hover out of the ifra
 # In action
 ![Screencast](screencast.gif)
 
+# Changelogs
+## 1.0
+- Peek on every link hover
+
+## 1.1
+- Peek only when `Control` is pressed
+- Add sizing options
+
 # TODO
 - Make `Jump to content` automatic
