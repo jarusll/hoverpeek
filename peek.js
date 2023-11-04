@@ -30,6 +30,7 @@ function getSettings() {
     hoverFlow.height = settings?.height ?? HEIGHT;
     hoverFlow.width = settings?.width ?? WIDTH;
     BLOCKJS = settings?.blockJS ?? BLOCKJS
+    hoverFlow.sandbox = BLOCKJS ? "" : "allow-scripts"
   });
 }
 
@@ -144,7 +145,6 @@ hoverFlow.style.background = 'white'
 hoverFlow.style.position = 'absolute'
 hoverFlow.style.zIndex = 2147483647
 hoverFlow.position = 'relative';
-hoverFlow.sandbox = ""
 hoverFlow.style.border = '2px solid black'
 hoverFlow.style.display = 'none'
 
