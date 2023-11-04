@@ -1,5 +1,5 @@
 const HEIGHT = 600
-const WIDTH = 400
+const WIDTH = 500
 const BLOCKJS = true
 
 function saveSettings(settings) {

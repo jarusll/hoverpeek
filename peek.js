@@ -1,5 +1,5 @@
 let HEIGHT = 600
-let WIDTH = 400
+let WIDTH = 500
 let BLOCKJS = true
 const width = window.innerWidth;
 const height = window.innerHeight;
