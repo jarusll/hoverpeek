@@ -71,7 +71,11 @@ function getPageAndCache(anchorTag) {
   Logger.log({
     fetch: url
   })
+  // before pushing to abort queue, abort other requests
+  const controller = new AbortController();
+  abortControllers.push(controller)
   fetch(url, {
+    signal: controller.signal,
     mode: 'no-cors',
     headers: {
       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1'
@@ -108,6 +112,7 @@ function getPageAndCache(anchorTag) {
 
 
 // GLOBALS
+let abortControllers = []
 const cache = new WeakMap()
 const parser = new DOMParser();
 const hoverflowContainer = document.createElement('div');
@@ -144,6 +149,8 @@ hoverFlow.addEventListener('mouseover', debounce(() => {
 }))
 
 hoverFlow.addEventListener('mouseout', debounce(() => {
+  abortControllers.forEach(controller => controller.abort())
+  abortControllers = []
   visible = false
   setTimeout(() => {
     if (!visible)
