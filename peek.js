@@ -22,11 +22,17 @@ class Logger {
     if (DEBUG_MODE)
       console.log(obj)
   }
+  static debug(obj) {
+    if (DEBUG_MODE)
+      console.debug(obj)
+  }
 }
 
 function getSettings() {
   browser.storage.local.get(['height', 'width']).then(settings => {
-    console.log('settings', settings);
+    Logger.debug({
+      settings
+    })
     hoverFlow.height = settings?.height ?? HEIGHT;
     hoverFlow.width = settings?.width ?? WIDTH;
     BLOCKJS = settings?.blockJS ?? BLOCKJS
@@ -115,6 +121,13 @@ function getPageAndCache(anchorTag) {
         hashAnchor.href = urlObj.hash
         hashAnchor.textContent = 'Jump to content'
         doc.body.prepend(hashAnchor)
+        const customStyles = document.createElement('style')
+        customStyles.textContent = `
+        img {
+          max-width: ${WIDTH} !important;
+        }
+        `
+        doc.head.prepend(customStyles)
       }
       hoverFlow.srcdoc = new XMLSerializer().serializeToString(doc);
     })
@@ -166,6 +179,7 @@ hoverFlow.addEventListener('mouseover', debounce(() => {
 }))
 
 hoverFlow.addEventListener('mouseout', debounce(() => {
+  peek = false
   abortControllers.forEach(controller => controller.abort())
   abortControllers = []
   visible = false
@@ -178,12 +192,14 @@ hoverFlow.addEventListener('mouseout', debounce(() => {
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Control') {
+    Logger.debug("CONTROL DOWN")
     peek = true
   }
 })
 
 document.addEventListener('keyup', (event) => {
   if (event.key === 'Control') {
+    Logger.debug("CONTROL UP")
     peek = false
   }
 })
