@@ -151,7 +151,6 @@ hoverflowContainer.height = '100%';
 
 const hoverFlow = document.createElement('iframe')
 hoverFlow.id = 'hoverflow'
-hoverFlow.style.background = 'white'
 hoverFlow.style.position = 'absolute'
 hoverFlow.style.zIndex = 2147483647
 hoverFlow.position = 'relative';
