@@ -1,7 +1,13 @@
-const HEIGHT = 600
-const WIDTH = 400
+let HEIGHT = 600
+let WIDTH = 400
 const width = window.innerWidth;
 const height = window.innerHeight;
+
+browser.storage.local.get(['height', 'width']).then(settings => {
+  console.log('settings', settings)
+  HEIGHT = settings?.height ?? HEIGHT
+  WIDTH = settings?.width ?? WIDTH
+})
 
 const DEBUG_MODE = true
 
