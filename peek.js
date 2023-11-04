@@ -138,13 +138,16 @@ hoverflowContainer?.prepend(hoverFlow)
 document?.body?.prepend(hoverflowContainer)
 
 let visible = false
+let peek = false
 
 // Dont destroy peek if user hovers back in 250ms
 hoverFlow.addEventListener('mouseenter', debounce(() => {
+  peek = true
   visible = true
 }))
 
 hoverFlow.addEventListener('mouseover', debounce(() => {
+  peek = true
   visible = true
 }))
 
@@ -153,12 +156,28 @@ hoverFlow.addEventListener('mouseout', debounce(() => {
   abortControllers = []
   visible = false
   setTimeout(() => {
-    if (!visible)
+    if (!visible) {
       killHoverflow()
+    }
   }, 500);
 }))
 
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Control') {
+    peek = true
+  }
+})
+
+document.addEventListener('keyup', (event) => {
+  if (event.key === 'Control') {
+    peek = false
+  }
+})
+
 document.addEventListener('mouseover', debounce((event) => {
+  if (!peek)
+    return
+
   const anchorTag = getAnchorTag(event);
 
   if (anchorTag) {
@@ -190,6 +209,8 @@ document.addEventListener('mouseover', debounce((event) => {
 
 // prefetch on hover
 document.addEventListener('mouseover', (event) => {
+  if (!peek)
+    return
   const anchorTag = getAnchorTag(event);
   getPageAndCache(anchorTag);
 })
