@@ -125,6 +125,10 @@ function getPageAndCache(anchorTag) {
         img {
           max-width: ${WIDTH} !important;
         }
+        body {
+          padding: 1rem;
+          margin: 1rem;
+        }
         `
         doc.head.prepend(customStyles)
       }
@@ -154,6 +158,7 @@ hoverflowContainer.height = '100%';
 const hoverFlow = document.createElement('iframe')
 hoverFlow.id = 'hoverflow'
 hoverFlow.style.position = 'absolute'
+hoverFlow.style.background = 'white'
 hoverFlow.style.zIndex = 2147483647
 hoverFlow.position = 'relative';
 hoverFlow.style.border = '2px solid black'
