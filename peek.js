@@ -1,5 +1,6 @@
 let HEIGHT = 600
 let WIDTH = 500
+const HOVERPEEK_ID = 'hoverpeek';
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -9,7 +10,7 @@ if (document.readyState == 'loading') {
   getSettings();
 }
 
-const DEBUG_MODE = true
+const DEBUG_MODE = false
 
 // UTILS
 class Logger {
@@ -32,8 +33,8 @@ function getSettings() {
     Logger.debug({
       settings
     })
-    hoverFlow.height = settings?.height ?? HEIGHT;
-    hoverFlow.width = settings?.width ?? WIDTH;
+    hoverPeek.height = settings?.height ?? HEIGHT;
+    hoverPeek.width = settings?.width ?? WIDTH;
   });
 }
 
@@ -42,9 +43,9 @@ function strip(dom) {
   return strippedText.replace(/(\r\n|\n|\r)/gm, "");
 }
 
-function killHoverflow() {
-  const hoverFlow = document.getElementById('hoverflow')
-  hoverFlow.style.display = 'none'
+function killHoverPeek() {
+  const hoverPeek = document.getElementById(HOVERPEEK_ID)
+  hoverPeek.style.display = 'none'
 }
 
 function debounce(func, wait, immediate = false) {
@@ -85,7 +86,7 @@ function getPageAndCache(anchorTag) {
       url: anchorTag?.href,
       cacheHit: strip(cache.get(anchorTag))
     })
-    killHoverflow()
+    killHoverPeek()
     return cache.get(anchorTag)
   }
   Logger.log({
@@ -132,7 +133,7 @@ function getPageAndCache(anchorTag) {
         `
         doc.head.prepend(customStyles)
       }
-      hoverFlow.srcdoc = new XMLSerializer().serializeToString(doc);
+      hoverPeek.srcdoc = new XMLSerializer().serializeToString(doc);
     })
     .catch((err) => {
       Logger.fail({
@@ -148,47 +149,47 @@ function getPageAndCache(anchorTag) {
 let abortControllers = []
 const cache = new WeakMap()
 const parser = new DOMParser();
-const hoverflowContainer = document.createElement('div');
-hoverflowContainer.position = 'absolute';
-hoverflowContainer.top = 0;
-hoverflowContainer.left = 0;
-hoverflowContainer.width = '100%';
-hoverflowContainer.height = '100%';
+const hoverPeekContainer = document.createElement('div');
+hoverPeekContainer.position = 'absolute';
+hoverPeekContainer.top = 0;
+hoverPeekContainer.left = 0;
+hoverPeekContainer.width = '100%';
+hoverPeekContainer.height = '100%';
 
-const hoverFlow = document.createElement('iframe')
-hoverFlow.id = 'hoverflow'
-hoverFlow.style.position = 'absolute'
-hoverFlow.style.background = 'white'
-hoverFlow.style.zIndex = 2147483647
-hoverFlow.position = 'relative';
-hoverFlow.style.border = '2px solid black'
-hoverFlow.style.display = 'none'
+const hoverPeek = document.createElement('iframe')
+hoverPeek.id = HOVERPEEK_ID
+hoverPeek.style.position = 'absolute'
+hoverPeek.style.background = 'white'
+hoverPeek.style.zIndex = 2147483647
+hoverPeek.position = 'relative';
+hoverPeek.style.border = '2px solid black'
+hoverPeek.style.display = 'none'
 
-hoverflowContainer?.prepend(hoverFlow)
-document?.body?.prepend(hoverflowContainer)
+hoverPeekContainer?.prepend(hoverPeek)
+document?.body?.prepend(hoverPeekContainer)
 
 let visible = false
 let peek = false
 
 // Dont destroy peek if user hovers back in 250ms
-hoverFlow.addEventListener('mouseenter', debounce(() => {
+hoverPeek.addEventListener('mouseenter', debounce(() => {
   peek = true
   visible = true
 }))
 
-hoverFlow.addEventListener('mouseover', debounce(() => {
+hoverPeek.addEventListener('mouseover', debounce(() => {
   peek = true
   visible = true
 }))
 
-hoverFlow.addEventListener('mouseout', debounce(() => {
+hoverPeek.addEventListener('mouseout', debounce(() => {
   peek = false
   abortControllers.forEach(controller => controller.abort())
   abortControllers = []
   visible = false
   setTimeout(() => {
     if (!visible) {
-      killHoverflow()
+      killHoverPeek()
     }
   }, 500);
 }))
@@ -221,21 +222,21 @@ document.addEventListener('mouseover', debounce((event) => {
     let leftAnchor = x + scrollLeft;
     let topAnchor = y + scrollTop;
     // Clamp the frame in viewport
-    let previewBottom = parseInt(y, 10) + parseInt(hoverFlow.height, 10);
+    let previewBottom = parseInt(y, 10) + parseInt(hoverPeek.height, 10);
     if (previewBottom > height) {
       const extra = previewBottom - height
       topAnchor -= extra
     }
-    const previewRight = parseInt(x, 10) + parseInt(hoverFlow.width, 10);
+    const previewRight = parseInt(x, 10) + parseInt(hoverPeek.width, 10);
     if (previewRight > width) {
       const extra = previewRight - width
       leftAnchor -= extra
     }
-    hoverFlow.style.top = topAnchor + 'px'
-    hoverFlow.style.left = leftAnchor + 'px'
+    hoverPeek.style.top = topAnchor + 'px'
+    hoverPeek.style.left = leftAnchor + 'px'
 
     if (anchorTag?.href) {
-      hoverFlow.style.display = 'block'
+      hoverPeek.style.display = 'block'
     }
   }
 }, 50));
