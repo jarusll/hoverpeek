@@ -117,27 +117,7 @@ function getPageAndCache(anchorTag) {
         response: doc
       })
       cache.set(anchorTag, doc)
-      const urlObj = new URL(url)
       removeHeadersAndFooters(doc);
-
-      if (urlObj.hash) {
-        const hashAnchor = document.createElement('a')
-        hashAnchor.id = 'jumptocontent'
-        hashAnchor.href = urlObj.hash
-        hashAnchor.textContent = 'Jump to content'
-        doc.body.prepend(hashAnchor)
-        const customStyles = document.createElement('style')
-        customStyles.textContent = `
-        img {
-          max-width: ${WIDTH} !important;
-        }
-        body {
-          padding: auto 1rem;
-          margin: auto 1rem;
-        }
-        `
-        doc.head.prepend(customStyles)
-      }
       hoverPeek.srcdoc = new XMLSerializer().serializeToString(doc);
     })
     .catch((err) => {
@@ -224,10 +204,10 @@ document.addEventListener('mouseover', debounce((event) => {
       topAnchor -= extra
     }
     const previewRight = parseInt(x, 10) + parseInt(hoverPeek.width, 10);
-    if (previewRight > width) {
-      const extra = previewRight - width
-      leftAnchor -= extra
-    }
+    // if (previewRight > width) {
+    const extra = previewRight - width
+    leftAnchor -= extra
+    // }
     hoverPeek.style.top = topAnchor - 16 + 'px'
     hoverPeek.style.left = leftAnchor - 16 + 'px'
     closeButton.style.top = topAnchor - 16 + 'px'
@@ -257,6 +237,11 @@ function removeHeadersAndFooters(doc) {
   let footers = doc.getElementsByTagName("footer");
   for (let i = 0; i < footers.length; i++) {
     footers[i].remove();
+  }
+
+  let navs = doc.getElementsByTagName("nav");
+  for (let i = 0; i < footers.length; i++) {
+    navs[i].remove();
   }
 }
 
