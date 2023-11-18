@@ -11,7 +11,8 @@ if (document.readyState == 'loading') {
   getSettings();
 }
 
-const DEBUG_MODE = false
+let peek = false
+const DEBUG_MODE = true
 
 // UTILS
 class Logger {
@@ -49,6 +50,7 @@ function killHoverPeek() {
   const closeButton = document.getElementById(CLOSEBUTTON_ID)
   hoverPeek.style.display = 'none'
   closeButton.style.display = 'none'
+  abortControllers.forEach(controller => controller.abort())
 }
 
 function debounce(func, wait, immediate = false) {
@@ -181,51 +183,13 @@ closeButton.style.color = 'white';
 closeButton.style.border = '2px solid white';
 closeButton.style.display = 'none';
 closeButton.style.zIndex = 2147483646
-closeButton.addEventListener('click', () => {
-  hoverPeek.style.display = 'none';
-  closeButton.style.display = 'none'
-  abortControllers.forEach(controller => controller.abort())
-});
+closeButton.addEventListener('mouseover', () => killHoverPeek())
 
 hoverPeekContainer?.prepend(closeButton)
 hoverPeekContainer?.prepend(hoverPeek)
 document?.body?.prepend(hoverPeekContainer)
 
-let visible = false
-let peek = false
-
-closeButton.addEventListener('mouseenter', debounce(() => {
-  peek = true
-  visible = true
-}))
-
-closeButton.addEventListener('mouseover', debounce(() => {
-  peek = true
-  visible = true
-}))
-
 // Dont destroy peek if user hovers back in 250ms
-hoverPeek.addEventListener('mouseenter', debounce(() => {
-  peek = true
-  visible = true
-}))
-
-hoverPeek.addEventListener('mouseover', debounce(() => {
-  peek = true
-  visible = true
-}))
-
-hoverPeek.addEventListener('mouseout', debounce(() => {
-  peek = false
-  abortControllers.forEach(controller => controller.abort())
-  abortControllers = []
-  visible = false
-  setTimeout(() => {
-    if (!visible) {
-      killHoverPeek()
-    }
-  }, 500);
-}))
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Control') {
@@ -248,7 +212,6 @@ document.addEventListener('mouseover', debounce((event) => {
   const anchorTag = getAnchorTag(event);
 
   if (anchorTag) {
-    visible = true
     const { clientX: x, clientY: y } = event;
     const scrollLeft = document.documentElement.scrollLeft;
     const scrollTop = document.documentElement.scrollTop;
