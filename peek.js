@@ -82,7 +82,7 @@ function getAnchorTag(event) {
 }
 
 function getPageAndCache(anchorTag) {
-  if (anchorTag === null)
+  if (anchorTag === null || anchorTag === undefined)
     return
   const url = anchorTag.href;
   if (cache.has(anchorTag)) {
