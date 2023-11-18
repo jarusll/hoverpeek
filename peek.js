@@ -99,6 +99,8 @@ function getPageAndCache(anchorTag) {
   })
   // before pushing to abort queue, abort other requests
   const controller = new AbortController();
+  abortControllers.forEach(controller => controller.abort())
+  abortControllers = []
   abortControllers.push(controller)
   fetch(url, {
     signal: controller.signal,
