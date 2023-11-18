@@ -161,7 +161,6 @@ hoverPeek.id = HOVERPEEK_ID
 hoverPeek.style.position = 'absolute'
 hoverPeek.style.background = 'white'
 hoverPeek.style.zIndex = 2147483647
-hoverPeek.position = 'relative';
 hoverPeek.style.border = '2px solid black'
 hoverPeek.style.borderRadius = '0.5rem'
 hoverPeek.style.display = 'none'
