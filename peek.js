@@ -183,15 +183,15 @@ document?.body?.prepend(hoverPeekContainer)
 // Dont destroy peek if user hovers back in 250ms
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Control') {
-    Logger.debug("CONTROL DOWN")
+  if (event.key === 'Shift') {
+    Logger.debug("SHIFT DOWN")
     peek = true
   }
 })
 
 document.addEventListener('keyup', (event) => {
-  if (event.key === 'Control') {
-    Logger.debug("CONTROL UP")
+  if (event.key === 'Shift') {
+    Logger.debug("SHIFT UP")
     peek = false
   }
 })
