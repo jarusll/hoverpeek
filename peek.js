@@ -4,15 +4,14 @@ const HOVERPEEK_ID = 'hoverpeek';
 const CLOSEBUTTON_ID = 'hoverpeek_close';
 const width = window.innerWidth;
 const height = window.innerHeight;
-
+const DEBUG_MODE = true
+let peek = false
+let fetching = null
 if (document.readyState == 'loading') {
   document.addEventListener('DOMContentLoaded', getSettings);
 } else {
   getSettings();
 }
-
-let peek = false
-const DEBUG_MODE = true
 
 // UTILS
 class Logger {
@@ -102,6 +101,9 @@ function getPageAndCache(anchorTag) {
   abortControllers.forEach(controller => controller.abort())
   abortControllers = []
   abortControllers.push(controller)
+  fetching = url
+  fetchingIndicator.innerHTML = `<div>Fetching</div> <div>${fetching}</div>...`
+  hoverPeek.srcdoc = new XMLSerializer().serializeToString(fetchingIndicator);
   fetch(url, {
     signal: controller.signal,
     mode: 'no-cors',
@@ -128,6 +130,8 @@ function getPageAndCache(anchorTag) {
         error: err,
         message: err.message
       })
+    }).finally(() => {
+      fetching = null
     });
 }
 
@@ -166,6 +170,10 @@ closeButton.style.border = '2px solid white';
 closeButton.style.display = 'none';
 closeButton.style.zIndex = 2147483646
 closeButton.addEventListener('mouseover', () => killHoverPeek())
+
+const fetchingIndicator = document.createElement('p');
+fetchingIndicator.style.display = 'flex'
+fetchingIndicator.style.flexDirection = 'column'
 
 hoverPeekContainer?.prepend(closeButton)
 hoverPeekContainer?.prepend(hoverPeek)
