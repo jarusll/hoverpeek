@@ -238,10 +238,5 @@ function removeHeadersAndFooters(doc) {
   for (let i = 0; i < footers.length; i++) {
     footers[i].remove();
   }
-
-  let navs = doc.getElementsByTagName("nav");
-  for (let i = 0; i < footers.length; i++) {
-    navs[i].remove();
-  }
 }
 
