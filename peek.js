@@ -163,6 +163,7 @@ hoverPeek.style.background = 'white'
 hoverPeek.style.zIndex = 2147483647
 hoverPeek.position = 'relative';
 hoverPeek.style.border = '2px solid black'
+hoverPeek.style.borderRadius = '0.5rem'
 hoverPeek.style.display = 'none'
 
 hoverPeekContainer?.prepend(hoverPeek)
@@ -232,8 +233,8 @@ document.addEventListener('mouseover', debounce((event) => {
       const extra = previewRight - width
       leftAnchor -= extra
     }
-    hoverPeek.style.top = topAnchor + 'px'
-    hoverPeek.style.left = leftAnchor + 'px'
+    hoverPeek.style.top = topAnchor - 16 + 'px'
+    hoverPeek.style.left = leftAnchor - 16 + 'px'
 
     if (anchorTag?.href) {
       hoverPeek.style.display = 'block'
