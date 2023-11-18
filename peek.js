@@ -184,6 +184,7 @@ closeButton.style.zIndex = 2147483646
 closeButton.addEventListener('click', () => {
   hoverPeek.style.display = 'none';
   closeButton.style.display = 'none'
+  abortControllers.forEach(controller => controller.abort())
 });
 
 hoverPeekContainer?.prepend(closeButton)
