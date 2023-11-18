@@ -206,10 +206,8 @@ document.addEventListener('mouseover', debounce((event) => {
       topAnchor -= extra
     }
     const previewRight = parseInt(x, 10) + parseInt(hoverPeek.width, 10);
-    // if (previewRight > width) {
     const extra = previewRight - width
     leftAnchor -= extra
-    // }
     hoverPeek.style.top = topAnchor - 16 + 'px'
     hoverPeek.style.left = leftAnchor - 16 + 'px'
     closeButton.style.top = topAnchor - 16 + 'px'
