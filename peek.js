@@ -167,6 +167,7 @@ closeButton.style.width = '2rem'
 closeButton.style.height = '2rem'
 closeButton.style.color = 'white';
 closeButton.style.border = '2px solid white';
+closeButton.style.borderTopLeftRadius = '0.5rem'
 closeButton.style.display = 'none';
 closeButton.style.zIndex = 2147483646
 closeButton.addEventListener('mouseover', () => killHoverPeek())
