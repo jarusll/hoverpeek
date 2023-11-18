@@ -112,6 +112,8 @@ function getPageAndCache(anchorTag) {
       })
       cache.set(anchorTag, doc)
       const urlObj = new URL(url)
+      removeHeadersAndFooters(doc);
+
       if (urlObj.hash) {
         const hashAnchor = document.createElement('a')
         hashAnchor.id = 'jumptocontent'
@@ -240,4 +242,16 @@ document.addEventListener('mouseover', (event) => {
   const anchorTag = getAnchorTag(event);
   getPageAndCache(anchorTag);
 })
+
+function removeHeadersAndFooters(doc) {
+  let headers = doc.getElementsByTagName("header");
+  for (let i = 0; i < headers.length; i++) {
+    headers[i].remove();
+  }
+
+  let footers = doc.getElementsByTagName("footer");
+  for (let i = 0; i < footers.length; i++) {
+    footers[i].remove();
+  }
+}
 
