@@ -127,8 +127,8 @@ function getPageAndCache(anchorTag) {
           max-width: ${WIDTH} !important;
         }
         body {
-          padding: 1rem;
-          margin: 1rem;
+          padding: auto 1rem;
+          margin: auto 1rem;
         }
         `
         doc.head.prepend(customStyles)
