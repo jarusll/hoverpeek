@@ -2,7 +2,7 @@
   "description": "Shows a preview of a link in iframe",
   "manifest_version": 2,
   "name": "HoverPeek",
-  "version": "1.1",
+  "version": "1.2",
   "homepage_url": "https://github.com/jarusll/hoverpeek.git",
   "icons": {
     "32": "icons/hoverpeek.png"
