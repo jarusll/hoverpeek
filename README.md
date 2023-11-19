@@ -14,5 +14,10 @@ Previews a link in iframe on hover. It is removed when you hover out of the ifra
 - Peek only when `Control` is pressed
 - Add sizing options
 
+## 1.2
+- Pin by default
+- Hover on close button to close
+- Remove headers & footers
+
 # TODO
-- Make `Jump to content` automatic
+- Implement `Jump to content`
