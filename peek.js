@@ -4,7 +4,7 @@ const HOVERPEEK_ID = 'hoverpeek';
 const CLOSEBUTTON_ID = 'hoverpeek_close';
 const width = window.innerWidth;
 const height = window.innerHeight;
-const DEBUG_MODE = true
+const DEBUG_MODE = false
 let peek = false
 let fetching = null
 if (document.readyState == 'loading') {
@@ -192,6 +192,13 @@ document.addEventListener('keydown', (event) => {
   setTimeout(() => {
     peek = false
   }, 3000)
+})
+
+document.addEventListener('keyup', (event) => {
+  if (event.key === 'Shift') {
+    Logger.debug("SHIFT UP")
+    peek = false
+  }
 })
 
 document.addEventListener('mouseover', debounce((event) => {
