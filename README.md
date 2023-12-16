@@ -19,5 +19,6 @@ Previews a link in iframe on hover. It is removed when you hover out of the ifra
 - Hover on close button to close
 - Remove headers & footers
 
-# TODO
-- Implement `Jump to content`
+## 1.3
+- Inactivate peek trigger after 3 seconds
+
