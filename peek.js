@@ -188,13 +188,10 @@ document.addEventListener('keydown', (event) => {
     Logger.debug("SHIFT DOWN")
     peek = true
   }
-})
 
-document.addEventListener('keyup', (event) => {
-  if (event.key === 'Shift') {
-    Logger.debug("SHIFT UP")
+  setTimeout(() => {
     peek = false
-  }
+  }, 3000)
 })
 
 document.addEventListener('mouseover', debounce((event) => {
