@@ -137,16 +137,10 @@ function getPageAndCache(anchorTag) {
 let abortControllers = []
 const cache = new WeakMap()
 const parser = new DOMParser();
-const hoverPeekContainer = document.createElement('div');
-hoverPeekContainer.position = 'absolute';
-hoverPeekContainer.top = 0;
-hoverPeekContainer.left = 0;
-hoverPeekContainer.width = '100%';
-hoverPeekContainer.height = '100%';
 
 const hoverPeek = document.createElement('iframe')
 hoverPeek.id = HOVERPEEK_ID
-hoverPeek.style.position = 'absolute'
+hoverPeek.style.position = 'fixed'
 hoverPeek.style.background = 'white'
 hoverPeek.style.zIndex = 2147483646
 hoverPeek.style.border = '2px solid black'
@@ -157,11 +151,9 @@ const fetchingIndicator = document.createElement('p');
 fetchingIndicator.style.display = 'flex'
 fetchingIndicator.style.flexDirection = 'column'
 
-hoverPeekContainer?.prepend(hoverPeek)
-document?.body?.prepend(hoverPeekContainer)
+document?.body?.prepend(hoverPeek)
 
 // Dont destroy peek if user hovers back in 250ms
-
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Shift') {
     Logger.debug("SHIFT DOWN")
