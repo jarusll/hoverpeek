@@ -112,13 +112,12 @@ function getPageAndCache(anchorTag) {
       return response.text();
     })
     .then((html) => {
-      let doc = parser.parseFromString(html, "text/html");
+      let doc = encodeURIComponent(parser.parseFromString(html, "text/html"));
       Logger.log({
         url,
         response: doc
       })
       cache.set(anchorTag, doc)
-      removeHeadersAndFooters(doc);
       hoverPeek.srcdoc = new XMLSerializer().serializeToString(doc);
     })
     .catch((err) => {
@@ -209,16 +208,4 @@ document.addEventListener('mouseover', (event) => {
   const anchorTag = getAnchorTag(event);
   getPageAndCache(anchorTag);
 })
-
-function removeHeadersAndFooters(doc) {
-  let headers = doc.getElementsByTagName("header");
-  for (let i = 0; i < headers.length; i++) {
-    headers[i].remove();
-  }
-
-  let footers = doc.getElementsByTagName("footer");
-  for (let i = 0; i < footers.length; i++) {
-    footers[i].remove();
-  }
-}
 
