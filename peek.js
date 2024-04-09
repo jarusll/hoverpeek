@@ -1,7 +1,6 @@
 let HEIGHT = 600
 let WIDTH = 500
 const HOVERPEEK_ID = 'hoverpeek';
-const CLOSEBUTTON_ID = 'hoverpeek_close';
 const width = window.innerWidth;
 const height = window.innerHeight;
 const DEBUG_MODE = false
@@ -46,9 +45,7 @@ function strip(dom) {
 
 function killHoverPeek() {
   const hoverPeek = document.getElementById(HOVERPEEK_ID)
-  const closeButton = document.getElementById(CLOSEBUTTON_ID)
   hoverPeek.style.display = 'none'
-  closeButton.style.display = 'none'
   abortControllers.forEach(controller => controller.abort())
 }
 
@@ -156,28 +153,10 @@ hoverPeek.style.border = '2px solid black'
 hoverPeek.style.borderRadius = '0.5rem'
 hoverPeek.style.display = 'none'
 
-const closeButton = document.createElement('button');
-closeButton.id = CLOSEBUTTON_ID
-closeButton.textContent = 'x';
-closeButton.style.position = 'absolute';
-closeButton.style.top = '0';
-closeButton.style.left = '0';
-closeButton.style.background = 'red';
-closeButton.style.width = '2rem'
-closeButton.style.height = '2rem'
-closeButton.style.color = 'white';
-closeButton.style.border = '2px solid white';
-closeButton.style.borderRadius = '50%'
-closeButton.style.margin = '0.2rem'
-closeButton.style.display = 'none';
-closeButton.style.zIndex = 2147483646
-closeButton.addEventListener('mouseover', () => killHoverPeek())
-
 const fetchingIndicator = document.createElement('p');
 fetchingIndicator.style.display = 'flex'
 fetchingIndicator.style.flexDirection = 'column'
 
-hoverPeekContainer?.prepend(closeButton)
 hoverPeekContainer?.prepend(hoverPeek)
 document?.body?.prepend(hoverPeekContainer)
 
@@ -224,12 +203,9 @@ document.addEventListener('mouseover', debounce((event) => {
     leftAnchor -= extra
     hoverPeek.style.top = topAnchor - 16 + 'px'
     hoverPeek.style.left = leftAnchor - 16 + 'px'
-    closeButton.style.top = topAnchor - 16 + 'px'
-    closeButton.style.left = leftAnchor - 16 + 'px'
 
     if (anchorTag?.href) {
       hoverPeek.style.display = 'block'
-      closeButton.style.display = 'block'
     }
   }
 }, 50));
